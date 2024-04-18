@@ -1,22 +1,22 @@
 /* Custom styles for react-datepicker */
 .react-datepicker-custom {
-  width: 94%; /* Adjusted width */
-  font-size: 1.3rem; /* Adjusted font size for the overall calendar */
+  width: 100%; /* Adjusted width */
+  font-size: 1rem; /* Adjusted font size for the overall calendar */
 }
 
 /* Adjust the size of the individual day and time name cells */
 .react-datepicker-custom .react-datepicker__day-name,
 .react-datepicker-custom .react-datepicker__day,
 .react-datepicker-custom .react-datepicker__time-name {
-  @apply w-12 h-12; /* Adjust width and height as needed */
-  font-size: 17px;
+  @apply w-12 h-10; /* Adjust width and height as needed */
+  font-size: 20px;
 
 }
 
 /* Style the header, including the month's font size */
 .react-datepicker-custom .react-datepicker__header {
   @apply bg-blue-500;
-  height: 70px; /* Background color for the header */
+  height: 74px; /* Background color for the header */
   /* Increase the month font size */
   .react-datepicker__current-month {
     font-size: 1.5rem; /* Larger font size for the month */
@@ -26,9 +26,9 @@
 /* Make left and right navigation buttons larger */
 .react-datepicker-custom .react-datepicker__navigation {
   @apply text-white;
-  @apply w-10 h-10; 
+  @apply  w-20 h-10; 
   .react-datepicker__navigation-icon {
-    @apply w-6 h-6; /* Adjust icon size within the navigation buttons */
+    @apply w-5 h-6; /* Adjust icon size within the navigation buttons */
   }
 }
 
@@ -37,23 +37,28 @@
 /* Make the toolbar size bigger and text color dark black */
 .ql-toolbar.ql-snow {
   font-size: 1.25rem; /* Increase the font size for a larger appearance */
+  font-weight: bold;
   background-color: rgb(125, 122, 122); /* Dark background for the toolbar */
   color: black; /* Light color for icons and text */
+  
 }
 
 .ql-toolbar.ql-snow .ql-picker-label,
 .ql-toolbar.ql-snow .ql-picker-item {
   color: black; /* Ensure dropdown items are also styled */
+  font-weight: bold;
 }
 
 .ql-container.ql-snow {
   border-color: #161212; /* Dark border for the editor container */
+  
 }
 
 .ql-editor {
   font-size: 1.25rem; /* Increase the font size in the editor area */
   color: #000; /* Dark black text for the editor content */
   background-color: #fffffe; /* Keeping the editor background light for contrast */
+  
 }
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React , { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { GoHome } from "react-icons/go";
 import { BsJournalText } from "react-icons/bs";
@@ -20,11 +20,28 @@ function Tooltip({ children, label }) {
         </div>
     );
 }
+function LogoutModal({ isOpen, onClose, onConfirm }) {
+    if (!isOpen) return null;
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center">
+            <div className="bg-white p-4 rounded-lg shadow-lg">
+                <h4 className="font-bold text-lg text-black">Confirm Logout</h4>
+                <p className="text-black">Are you sure you want to log out?</p>
+                <div className="flex justify-end gap-4 mt-4 text-black">
+                    <button className="px-4 py-2 rounded bg-red-500 text-white" onClick={onConfirm}>Logout</button>
+                    <button className="px-4 py-2 rounded bg-gray-300" onClick={onClose}>Cancel</button>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 
 function Sidebar() {
     const navigate = useNavigate();
     const size_prop = 23; // Icon size controlled via a single variable for consistency
+    const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+    
 
     const mainIcons = [
         { Icon: GoHome, label: "Home", path: '/emowell/dashboard' },
@@ -40,13 +57,20 @@ function Sidebar() {
         { Icon: IoRemoveOutline, label: "" }, // Set label to empty for IoRemoveOutline
         { Icon: FiLogOut, label: "LogOut", path: '/logout' } // Assuming a logout path
     ];
+    
 
     const handleClick = (path) => {
-        if (path.startsWith('http')) {
+        if (path === '/logout') {
+            setIsLogoutModalOpen(true);
+        } else if (path.startsWith('http')) {
             window.location.href = path;
         } else {
             navigate(path);
         }
+    };
+    const handleLogout = () => {
+        localStorage.removeItem('token'); // Remove the token
+        navigate('/signin'); // Redirect to signin page
     };
 
     return (
@@ -72,6 +96,11 @@ function Sidebar() {
                     )
                 ))}
             </div>
+            <LogoutModal 
+                isOpen={isLogoutModalOpen} 
+                onClose={() => setIsLogoutModalOpen(false)}
+                onConfirm={handleLogout} 
+            />
         </div>
     );
 }

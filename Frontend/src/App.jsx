@@ -12,8 +12,8 @@ import JournalEntry from './pages/Journal';
 import {ProtectedRoute} from './components/ProtectedRoute';
 import Entries from './pages/Entries';
 import Todo from './pages/Todo';
- 
-import Anyltics from './pages/Anyltics';
+import Sleeptracker from './pages/SleepTracker';
+import Moodtracker from './pages/MoodTracker'
 function App() {
   return (
     <BrowserRouter>
@@ -40,9 +40,14 @@ function App() {
             <Todo/>
           </ProtectedRoute>
         } />
-        <Route path="/emowell/anyltics" element={
+        <Route path="/emowell/Sleeptracker" element={
           <ProtectedRoute>
-            <Anyltics/>
+            <Sleeptracker/>
+          </ProtectedRoute>
+        } />
+        <Route path="/emowell/Moodtracker" element={
+          <ProtectedRoute>
+            <Moodtracker/>
           </ProtectedRoute>
         } />
         {/* Redirect users trying to access an undefined route */}

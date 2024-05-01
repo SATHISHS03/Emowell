@@ -30,3 +30,42 @@ Moodtracker_router.post('/addmoodtracker', authMiddleware, async (req, res) => {
     });
   }
 });
+// Express route in your mood tracker backend
+Moodtracker_router.get('/getmoodsfordate', authMiddleware, async (req, res) => {
+  const { date } = req.query; // Use query parameters instead of body
+  const userId = req.userId;
+  console.log(date);
+
+  const startDate = new Date(date);
+  startDate.setHours(0, 0, 0, 0);
+
+  const endDate = new Date(date);
+  endDate.setHours(23, 59, 59, 999);
+
+  try {
+    const moodEntries = await Moodtracker.find({
+      person_id: userId,
+      Date: { $gte: startDate, $lte: endDate }
+    }).sort({ Date: -1 });
+    console.log(moodEntries);
+
+    if (moodEntries.length > 0) {
+      const responseData = moodEntries.map(entry => ({
+        mood: entry.Moodemoji,
+        date: entry.Date
+      }));
+      console.log("Mood entries fetched for date:", date, responseData);
+      res.json(responseData);
+    } else {
+      res.status(404).json({ message: 'No mood entries found for this date' });
+    }
+  } catch (error) {
+    console.error('Error retrieving the mood entries:', error);
+    res.status(500).json({ message: 'Failed to retrieve the mood entries', error: error.message });
+  }
+});
+
+
+
+
+

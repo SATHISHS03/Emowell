@@ -27,12 +27,12 @@ function Sidebar() {
     const size_prop = 23; // Icon size controlled via a single variable for consistency
 
     const mainIcons = [
-        { Icon: GoHome, label: "Home", path: '/emowell/home' },
+        { Icon: GoHome, label: "Home", path: '/emowell/dashboard' },
         { Icon: BsJournalText, label: "Journal", path: '/emowell/Journal' },
         { Icon: LuListTodo, label: "Tasks", path: '/emowell/todo' },
-        { Icon: GiNightSleep, label: "SleepTracker", path: '' }, // Assuming no path set
+        { Icon: GiNightSleep, label: "SleepTracker", path: '/emowell/Sleeptracker' }, // Assuming no path set
         { Icon: GiMeditation, label: "Meditation", path: 'http://localhost:3001/chakra-app/' },
-        { Icon: MdOutlineEmojiEmotions, label: "MoodTracker", path: '' } // Assuming no path set
+        { Icon: MdOutlineEmojiEmotions, label: "MoodTracker", path: '/emowell/Moodtracker' } // Assuming no path set
     ];
 
     const settingIcons = [

@@ -7,3 +7,7 @@ export const authState = atom({
     isAuthenticated: !!localStorage.getItem('token'), 
   },
 });
+export const dateState = atom({
+  key: 'dateState', // unique ID with respect to other atoms/selectors
+  default: [] // default value (aka initial value)
+});

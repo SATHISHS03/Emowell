@@ -4,8 +4,10 @@ import spacy
 from spacytextblob.spacytextblob import SpacyTextBlob
 from textblob import TextBlob
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all domains on all routes
 
 # Download necessary NLTK data
 nltk.download('punkt')
@@ -21,6 +23,7 @@ sia = SentimentIntensityAnalyzer()
 def interpret_vader_scores(scores):
     """ Convert VADER's numerical score to a descriptive category. """
     compound = scores['compound']
+    print(compound)
     if compound >= 0.05:
         return 'Positive'
     elif compound > -0.05 and compound < 0.05:

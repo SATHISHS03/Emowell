@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import DatePicker from 'react-datepicker';
 import {  useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
+import { dateState } from '../store/atoms/state.js';
 import Sidebar from '../components/Sidebar.jsx';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useRecoilValue } from 'recoil';
 import 'react-quill/dist/quill.snow.css';
 import '../assets/custom.css';
 import { FaList } from "react-icons/fa";
@@ -13,42 +15,72 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 const JournalEntry = () => {
   const [date, setDate] = useState(new Date());
   const [entry, setEntry] = useState('');
+  const disabledDates = useRecoilValue(dateState);
   const navigate = useNavigate(); 
+  
 
 
   const addEntry = async () => {
-    // Check if entry is null, undefined, or just empty (also trims any whitespace)
+    // Check if the entry is empty, null, or just white spaces
     if (!entry || entry.trim() === '') {
-      alert('Entry is blank');
-      return; // Exit the function if the entry is invalid
+      alert('Entry cannot be blank.');
+      return; // Stop the function execution if no valid entry text is provided
     }
   
-    // Retrieve the token from local storage
     const token = localStorage.getItem('token');
-    const config = {
-      headers: {
-        'Authorization': `Bearer ${token}` // Include the token in the Authorization header
-      }
+    if (!token) {
+      alert('No authorization token found. Please login again.');
+      return;
+    }
+  
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     };
   
     try {
-      // Attempt to post the journal entry to the server
-      await axios.post('http://localhost:3000/api/v1/user/addentry', {
-        date: date, // Use the date state
-        text: entry, // Use the entry state
-      }, config);
+      // First, send the text for sentiment analysis
+      const sentimentResponse = await axios.post('http://localhost:5000/analyze', { text: entry });
   
-      // Notify the user of success
-      alert('Entry added successfully');
-      // Reset the date and entry states
-      setDate(new Date());
-      setEntry('');
+      if (sentimentResponse.status !== 200) {
+        alert('Failed to analyze sentiment. Please try again.');
+        return;
+      }
+  
+      const sentimentData = sentimentResponse.data;
+  
+      // Then, submit the journal entry along with the sentiment analysis data
+      const entryResponse = await axios.post('http://localhost:3000/api/v1/user/addentry', {
+        date: date,
+        text: entry,
+        sentiment: sentimentData.vader_sentiment
+      }, { headers });
+  
+      if (entryResponse.status === 200) {
+        alert('Entry added successfully');
+        setDate(new Date());
+        setEntry('');
+      } else {
+        alert('Entry submission failed. Please try again.');
+      }
     } catch (error) {
-      // Handle any errors during the post operation
-      alert('Failed to add entry');
-      console.error(error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Error response:', error.response.data);
+        alert(`Error: ${error.response.status} ${error.response.data.error || error.response.data}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('Error request:', error.request);
+        alert('No response received from the server. Please check your network connection.');
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error message:', error.message);
+        alert('Error: ' + error.message);
+      }
     }
   };
+  
   
   const goToEntriesPage = () => {
     navigate('entries'); // Update with your actual path
@@ -72,6 +104,7 @@ const JournalEntry = () => {
       <DatePicker
         selected={date}
         onChange={(date) => setDate(date)}
+        excludeDates={disabledDates}
         maxDate={new Date()}
         inline
         calendarClassName="react-datepicker-custom"/>

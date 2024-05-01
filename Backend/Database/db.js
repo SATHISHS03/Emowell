@@ -15,9 +15,10 @@ const UserSchema = new Schema({
         
 });
 const EntrySchema = new Schema({
-    person_id: { type: Schema.Types.ObjectId, ref: 'User' },
-    date: { type: Date, default: Date.now }, // Use Mongoose's Date type and default to the current date/time
-    text: String,
+  person_id: { type: Schema.Types.ObjectId, ref: 'User' },
+  date: { type: Date, default: Date.now },
+  text: { type: String, required: true },
+  sentiment: String
 });
 
 const taskSchema = new mongoose.Schema({
@@ -52,7 +53,7 @@ const taskSchema = new mongoose.Schema({
     Moodemoji : String
 
   });
-  
+EntrySchema.index({ person_id: 1, date: 1 }, { unique: true });
 
 
 export const User = mongoose.model('User', UserSchema);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Sidebar from '../components/Sidebar';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog } from '@headlessui/react';
 import { IoIosMoon } from 'react-icons/io';
 import { FiCheckCircle } from 'react-icons/fi';
 
@@ -57,7 +57,7 @@ const SleepTracker = () => {
             max="12"
             value={sleepTime}
             onChange={handleSleepTimeChange}
-            className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer"
           />
           <div className="text-lg font-medium text-gray-800 mt-4">
             Sleep Time: {sleepTime} hours
@@ -70,30 +70,24 @@ const SleepTracker = () => {
           </button>
         </div>
       </div>
-      <Transition appear show={isOpen} as={React.Fragment}>
-        <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeModal}>
-          <div className="min-h-screen px-4 text-center">
-            <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-              <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                Confirmation
-              </Dialog.Title>
-              <div className="mt-2">
-                <p className="text-sm text-gray-500">Your sleep cycle has been updated successfully!</p>
-              </div>
-              <div className="mt-4">
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                  onClick={closeModal}
-                >
-                  <FiCheckCircle className="mr-2" />
-                  Okay
-                </button>
-              </div>
-            </Dialog.Panel>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md">
+            <h3 className="text-lg font-medium leading-6 text-gray-900">
+              Sleep Cycle Updated
+            </h3>
+            <p className="text-sm text-gray-500 mt-2">
+              Your sleep cycle has been updated successfully!
+            </p>
+            <button
+              onClick={closeModal}
+              className="inline-flex justify-center px-4 py-2 mt-4 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            >
+              <FiCheckCircle className="mr-2" /> Okay
+            </button>
           </div>
-        </Dialog>
-      </Transition>
+        </div>
+      )}
     </div>
   );
 };

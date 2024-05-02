@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import {  useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios
 import { dateState } from '../store/atoms/state.js';
-import Sidebar from '../components/Sidebar.jsx';
+import Sidebar from '../components/Sidebar2.jsx';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useRecoilValue } from 'recoil';
 import 'react-quill/dist/quill.snow.css';
@@ -88,8 +88,10 @@ const JournalEntry = () => {
   
 
   return (
+    
     <div className="flex h-screen">
-      <Sidebar className="1/4"/> 
+      <div><Sidebar className="1/4"/> </div>
+      
     <div className="w-1/3 p-8 flex flex-col justify-between" style={{ background: 'linear-gradient(to bottom, #ee7724, #d8363a)' }}>
     <div>
     <div className="flex items-center justify-between mb-8">

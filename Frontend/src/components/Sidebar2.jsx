@@ -73,7 +73,7 @@ function Sidebar() {
     };
 
     return (
-        <div className="fixed h-screen w-14 bg-gray-800 text-white flex flex-col justify-between">
+        <div className="h-screen w-14 bg-gray-800 text-white flex flex-col justify-between">
             <div className="mt-1 mb-5">
                 <img src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp" alt="Emowell Logo" className="h-12 w-auto mb-3 rounded-full" />
             </div>

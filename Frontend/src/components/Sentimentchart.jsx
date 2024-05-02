@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+ 
 import { Bar } from 'react-chartjs-2';
+import { useRecoilState } from 'recoil';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +13,7 @@ import {
   Legend
 } from 'chart.js';
 import dayjs from 'dayjs'; // For handling dates
+import { dateState } from '../store/atoms/state';
 
 ChartJS.register(
   CategoryScale,
@@ -23,6 +26,7 @@ ChartJS.register(
 
 const SentimentBarChart = () => {
   const [entries, setEntries] = useState([]);
+  const [dates, setDates] = useRecoilState(dateState);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: []
@@ -37,6 +41,8 @@ const SentimentBarChart = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+      const fetchedDates = response.data.entries.map(entry => new Date(entry.date));
+      setDates(fetchedDates); // Update the Recoil state with the fetched dates
       setEntries(response.data.entries);
     };
 
@@ -76,10 +82,20 @@ const SentimentBarChart = () => {
 
   return (
     <div>
-      <h2>Sentiment Analysis Over Time</h2>
-      <div>
-        <button onClick={() => setView('lastWeek')}>Last Week</button>
-        <button onClick={() => setView('lastMonth')}>Last Month</button>
+      <h2 className="font-bold text-2xl mb-4">Sentiment Analysis Over Time</h2>
+      <div className="mb-4">
+        <button
+          onClick={() => setView('lastWeek')}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+        >
+          Last Week
+        </button>
+        <button
+          onClick={() => setView('lastMonth')}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Last Month
+        </button>
       </div>
       <Bar data={chartData} options={{ responsive: true }} />
     </div>

@@ -34,7 +34,6 @@ const SleepDataLineChart = () => {
                 const response = await axios.get('http://localhost:3000/api/v1/sleeptimer/getLatestSleepTime', {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
-                console.log(response.data,"data");
                 const dates = response.data.map(entry => new Date(entry.date).toLocaleDateString());
                 const sleepTimes = response.data.map(entry => entry.sleepTime);
 
@@ -57,9 +56,27 @@ const SleepDataLineChart = () => {
     }, []);
 
     return (
-        <div>
-            <h2 className="text-center">Sleep Time Trends</h2>
-            <Line data={chartData} options={{ responsive: true, scales: { y: { beginAtZero: true } } }} />
+        <div className="p-4 bg-white rounded-lg shadow">
+            <h2 className="text-lg font-semibold text-center text-gray-800 mb-4">Sleep Time Trends</h2>
+            <Line data={chartData} options={{
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: {
+                                size: 14
+                            }
+                        }
+                    }
+                }
+            }} />
         </div>
     );
 };

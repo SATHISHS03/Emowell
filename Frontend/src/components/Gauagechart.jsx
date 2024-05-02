@@ -10,14 +10,15 @@ const GaugeChart = ({ value }) => {
         { name: 'Rest', value: 100 - validValue }
     ];
 
-    const COLORS = ['#FF8042', '#DDD']; // Color for the filled part and the transparent part
+    // Improved color scheme
+    const COLORS = ['#0088FE', '#DDD']; // Bright blue for the value, light gray for the rest
 
     return (
-        <ResponsiveContainer width="100%" height={250}> {/* Setting a fixed height for the container */}
-        
+        <ResponsiveContainer width="100%" height={250}>
             <PieChart>
+                {/* Background pie to show full circle */}
                 <Pie
-                    data={[{ name: 'Background', value: 100 }]} // Simplified background data assignment
+                    data={[{ name: 'Background', value: 100 }]}
                     dataKey="value"
                     cx="50%"
                     cy="50%"
@@ -25,9 +26,10 @@ const GaugeChart = ({ value }) => {
                     endAngle={0}
                     innerRadius="60%"
                     outerRadius="80%"
-                    fill="#ccc" // Neutral color for the background
+                    fill="#eee"  // Soft gray for a more subtle background
                     isAnimationActive={false}
                 />
+                {/* Foreground pie to show actual value */}
                 <Pie
                     data={data}
                     dataKey="value"
@@ -38,14 +40,24 @@ const GaugeChart = ({ value }) => {
                     innerRadius="60%"
                     outerRadius="80%"
                     fill="#8884d8"
-                    paddingAngle={5}
+                    paddingAngle={0}
+                    isAnimationActive={true}
                 >
                     {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
-                    
                 </Pie>
- 
+                {/* Central Text displaying the value */}
+                <Text
+                    x="50%"
+                    y="50%"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    className="progress-label"
+                    style={{ fontSize: '1.5em', fill: '#333' }}
+                >
+                    {`${validValue}%`}
+                </Text>
             </PieChart>
         </ResponsiveContainer>
     );

@@ -5,17 +5,22 @@ import Sidebar from '../components/Sidebar';
 const MoodTracker = () => {
   const [selectedMood, setSelectedMood] = useState(null);
 
-  // Define mood options
+  // Expanded mood options
   const moodOptions = [
     { label: 'Happy', emoji: '😊' },
     { label: 'Sad', emoji: '😢' },
     { label: 'Angry', emoji: '😠' },
-    { label: 'Surprised', emoji: '😲' }
+    { label: 'Surprised', emoji: '😲' },
+    { label: 'Anxious', emoji: '😟' },
+    { label: 'Excited', emoji: '🤩' },
+    { label: 'Tired', emoji: '😴' },
+    { label: 'Calm', emoji: '😌' }
   ];
 
-  // Handle mood selection
+  // Handle mood selection with animation effect
   const handleMoodClick = (mood) => {
     setSelectedMood(mood);
+    // Optional: trigger a custom animation or visual effect here
   };
 
   // Handle submit mood
@@ -46,12 +51,15 @@ const MoodTracker = () => {
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 p-10">
-        <div className="text-center p-6 bg-white rounded-xl shadow-xl max-w-md w-full">
-          <h2 className="text-2xl font-semibold mb-4">How are you feeling?</h2>
-          <div className="grid grid-cols-3 gap-4 p-4">
+        <div className="text-center p-6 bg-white rounded-xl shadow-xl max-w-lg w-full">
+          <h2 className="text-2xl font-semibold mb-4">How are you feeling today?</h2>
+          <div className="grid grid-cols-4 gap-4 p-4">
             {moodOptions.map((mood) => (
-              <button key={mood.label} onClick={() => handleMoodClick(mood)}
-                className={`mood-btn flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-200 ease-in-out border-2 ${selectedMood && selectedMood.label === mood.label ? 'border-blue-500 bg-blue-100' : 'border-transparent hover:bg-gray-100'}`}>
+              <button
+                key={mood.label}
+                onClick={() => handleMoodClick(mood)}
+                className={`mood-btn flex flex-col items-center justify-center p-2 rounded-xl transition-transform duration-300 ease-in-out border-2 hover:scale-110 ${selectedMood && selectedMood.label === mood.label ? 'border-blue-500 bg-blue-100 scale-125' : 'border-transparent hover:bg-gray-100'}`}
+              >
                 <div className="emoji text-4xl">{mood.emoji}</div>
                 <div className="text-sm">{mood.label}</div>
               </button>
@@ -64,6 +72,14 @@ const MoodTracker = () => {
           >
             Submit Mood
           </button>
+        </div>
+        <div className="mt-6 text-lg">
+          <h3 className="font-semibold">Why Track Your Mood?</h3>
+          <ul className="list-disc list-inside text-left">
+            <li>Understanding patterns and triggers in your emotional well-being.</li>
+            <li>Improving mental health by recognizing personal factors influencing mood.</li>
+            <li>Enhancing self-awareness and promoting healthier emotional responses.</li>
+          </ul>
         </div>
       </div>
     </div>

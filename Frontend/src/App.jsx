@@ -14,6 +14,8 @@ import Entries from './pages/Entries';
 import Todo from './pages/Todo';
 import Sleeptracker from './pages/SleepTracker';
 import Moodtracker from './pages/MoodTracker'
+import Recommendation from './pages/Recomadation';
+
 function App() {
   return (
     <BrowserRouter>
@@ -48,6 +50,11 @@ function App() {
         <Route path="/emowell/Moodtracker" element={
           <ProtectedRoute>
             <Moodtracker/>
+          </ProtectedRoute>
+        } />
+        <Route path="/emowell/Reccomadaiton" element={
+          <ProtectedRoute>
+            <Recommendation/>
           </ProtectedRoute>
         } />
         {/* Redirect users trying to access an undefined route */}

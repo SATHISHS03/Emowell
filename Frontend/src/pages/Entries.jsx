@@ -156,14 +156,14 @@ export default function Entries() {
   overlayClassName="fixed inset-0 bg-black bg-opacity-50"
 >
   <h2 className="text-2xl font-semibold text-gray-800 flex items-center mb-6">
-    <span className="material-icons-outlined text-blue-500 mr-2">analytics</span>
+    <span className="material-icons-outlined text-blue-500 mr-2"></span>
     Analysis Results
   </h2>
   {analysisResult ? (
     <div className="space-y-4">
       <div className="flex items-center justify-between p-4 bg-blue-100 rounded-lg shadow">
         <div className="flex items-center">
-          <span className="material-icons-outlined text-blue-500 mr-2">sentiment_very_satisfied</span>
+          <span className="material-icons-outlined text-blue-500 mr-2"></span>
           <strong className="text-lg">Sentiment: </strong>
         </div>
         <span className={`${analysisResult.vader_sentiment === 'Positive' ? 'text-green-600' : 'text-red-600'} font-bold text-xl`}>
@@ -173,7 +173,7 @@ export default function Entries() {
 
       <div className="p-4 bg-orange-100 rounded-lg shadow">
         <h3 className="flex items-center mb-2 text-lg font-semibold">
-          <span className="material-icons-outlined text-orange-500 mr-2">groups</span>
+          <span className="material-icons-outlined text-orange-500 mr-2"></span>
           Named Entities
         </h3>
         <ul className="list-disc pl-5 space-y-1">
@@ -227,31 +227,7 @@ overlayClassName="fixed inset-0 bg-black bg-opacity-50"
   Close
 </button>
 </Modal>
-<Modal
-isOpen={isAnalysisModalOpen}
-onRequestClose={closeAnalysisModal}
-contentLabel="Entry Text and Analysis"
-className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-5 bg-white rounded-lg shadow-xl outline-none"
-overlayClassName="fixed inset-0 bg-black bg-opacity-50"
->
-<h2 className="text-xl font-semibold text-gray-800">Analysis Results</h2>
-{analysisResult ? (
-  <div className="mt-2 mb-6">
-    {console.log(analysisResult)}
-    <div><strong>Sentiment:</strong> {analysisResult.vader_sentiment}</div>
-    <div><strong>Named Entities:</strong> {JSON.stringify(analysisResult.named_entities)}</div>
-    <div><strong>Significant Words:</strong> {JSON.stringify(analysisResult.significant_words)}</div>
-  </div>
-) : (
-  <div className="text-red-500">No analysis results.</div>
-)}
-<button
-  onClick={closeAnalysisModal}
-  className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
->
-  Close
-</button>
-</Modal>
+
 
         </div>
       </div>

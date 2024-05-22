@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
+import { useRecoilState } from 'recoil';
 import axios from 'axios';
+import { moodCountState } from '../store/atoms/state';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -26,6 +28,7 @@ ChartJS.register(
 
 const Moodtrackerchart = () => {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // default to today
+    const [moodCount, setMoodCount] = useRecoilState(moodCountState);
     const [chartData, setChartData] = useState({
         datasets: [{
             data: [],
@@ -40,10 +43,21 @@ const Moodtrackerchart = () => {
             const response = await axios.get(`http://localhost:3000/api/v1/moodtracker/getmoodsfordate?date=${date}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
+            // console.log(moodCounts)
             const moodCounts = response.data.reduce((acc, mood) => {
                 acc[mood.mood] = (acc[mood.mood] || 0) + 1;
                 return acc;
             }, {});
+            
+            const totalEntries = Object.values(moodCounts).reduce((sum, num) => sum + num, 0);
+
+        // Update the Recoil state with the new counts and the total
+        setMoodCount({
+          date,
+          counts: moodCounts,
+          total: totalEntries
+        });
+            
 
             if (Object.keys(moodCounts).length > 0) {
                 setChartData({

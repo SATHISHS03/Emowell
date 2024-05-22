@@ -47,7 +47,7 @@ function Sidebar() {
         { Icon: BsJournalText, label: "Journal", path: '/emowell/Journal' },
         { Icon: LuListTodo, label: "Tasks", path: '/emowell/todo' },
         { Icon: GiNightSleep, label: "SleepTracker", path: '/emowell/Sleeptracker' },
-        { Icon: GiMeditation, label: "Meditation", path: 'http://localhost:3001/chakra-app/' },
+        { Icon: GiMeditation, label: "Meditation", path: 'http://localhost:3000/chakra-app/' },
         { Icon: MdOutlineEmojiEmotions, label: "MoodTracker", path: '/emowell/Moodtracker' }
     ];
 

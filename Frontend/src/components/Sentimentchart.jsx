@@ -25,6 +25,7 @@ ChartJS.register(
 );
 
 const SentimentBarChart = () => {
+  
   const [entries, setEntries] = useState([]);
   const [dates, setDates] = useRecoilState(dateState);
   const [chartData, setChartData] = useState({
@@ -44,6 +45,7 @@ const SentimentBarChart = () => {
       const fetchedDates = response.data.entries.map(entry => new Date(entry.date));
       setDates(fetchedDates); // Update the Recoil state with the fetched dates
       setEntries(response.data.entries);
+      console.log(dates)
     };
 
     fetchData();
@@ -70,6 +72,10 @@ const SentimentBarChart = () => {
     });
   };
 
+  
+
+
+
   const filterLastWeek = (entries) => {
     const aWeekAgo = dayjs().subtract(1, 'week');
     return entries.filter(entry => dayjs(entry.date).isAfter(aWeekAgo));
@@ -79,6 +85,7 @@ const SentimentBarChart = () => {
     const aMonthAgo = dayjs().subtract(1, 'month');
     return entries.filter(entry => dayjs(entry.date).isAfter(aMonthAgo));
   };
+  
 
   return (
     <div>
